@@ -1,6 +1,8 @@
 package features
 
-import "math"
+import (
+	"math"
+)
 
 const EPSILON = 0.00001
 
@@ -71,11 +73,44 @@ func Equal(t1, t2 Tuple) bool {
 	return equal(t1.x, t2.x) &&
 		equal(t1.y, t2.y) &&
 		equal(t1.z, t2.z) &&
-		equal(t1.w, t2.x)
+		equal(t1.w, t2.w)
 }
 
 func equal(a, b float64) bool {
 	return math.Abs(a-b) < EPSILON
+}
+
+func Negate(t Tuple) Tuple {
+	zero := Tuple{}
+	return Subtract(zero, t)
+}
+
+func Multiply(t1 Tuple, scalar float64) Tuple {
+	t := Tuple{}
+	t.x = t1.x * scalar
+	t.y = t1.y * scalar
+	t.z = t1.z * scalar
+	t.w = t1.w * scalar
+	return t
+}
+
+func Divide(t1 Tuple, scalar float64) Tuple {
+	t := Tuple{}
+	t.x = t1.x / scalar
+	t.y = t1.y / scalar
+	t.z = t1.z / scalar
+	t.w = t1.w / scalar
+	return t
+}
+
+func Magnitude(t Tuple) float64 {
+	radicand := (t.x * t.x) + (t.y * t.y) + (t.z * t.z) + (t.w * t.w)
+	return math.Sqrt(radicand)
+}
+
+func Normalize(t Tuple) Tuple {
+
+	return 0.0
 }
 
 // Point returns a point
