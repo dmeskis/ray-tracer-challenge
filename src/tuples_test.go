@@ -7,7 +7,7 @@ import (
 )
 
 func TestPoint(t *testing.T) {
-	a := Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 1.0}
+	a := Tuple{x: 4.3, y: -4.2, z: 3.1, w: 1.0}
 
 	want := true
 	got := IsPoint(a)
@@ -18,7 +18,7 @@ func TestPoint(t *testing.T) {
 }
 
 func TestVector(t *testing.T) {
-	a := Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 0.0}
+	a := Tuple{x: 4.3, y: -4.2, z: 3.1, w: 0.0}
 
 	want := true
 	got := IsVector(a)
@@ -75,9 +75,9 @@ func TestSubtractTuple(t *testing.T) {
 }
 
 func TestNegateTuple(t *testing.T) {
-	t1 := Tuple{X: 1.0, Y: -2.0, Z: 3.0, W: -4.0}
+	t1 := Tuple{x: 1.0, y: -2.0, z: 3.0, w: -4.0}
 
-	want := Tuple{X: -1.0, Y: 2.0, Z: -3.0, W: 4.0}
+	want := Tuple{x: -1.0, y: 2.0, z: -3.0, w: 4.0}
 	got := Negate(t1)
 
 	if !Equal(want, got) {
@@ -86,10 +86,10 @@ func TestNegateTuple(t *testing.T) {
 }
 
 func TestMultiplyTupleByScalar(t *testing.T) {
-	t1 := Tuple{X: 1.0, Y: -2.0, Z: 3.0, W: -4.0}
+	t1 := Tuple{x: 1.0, y: -2.0, z: 3.0, w: -4.0}
 	scalar := 3.5
 
-	want := Tuple{X: 3.5, Y: -7, Z: 10.5, W: -14}
+	want := Tuple{x: 3.5, y: -7, z: 10.5, w: -14}
 	got := Multiply(t1, scalar)
 
 	if !Equal(want, got) {
@@ -98,10 +98,10 @@ func TestMultiplyTupleByScalar(t *testing.T) {
 }
 
 func TestMultiplyTupleByFraction(t *testing.T) {
-	t1 := Tuple{X: 1.0, Y: -2.0, Z: 3.0, W: -4.0}
+	t1 := Tuple{x: 1.0, y: -2.0, z: 3.0, w: -4.0}
 	scalar := 0.5
 
-	want := Tuple{X: 0.5, Y: -1, Z: 1.5, W: -2}
+	want := Tuple{x: 0.5, y: -1, z: 1.5, w: -2}
 	got := Multiply(t1, scalar)
 
 	if !Equal(want, got) {
@@ -110,10 +110,10 @@ func TestMultiplyTupleByFraction(t *testing.T) {
 }
 
 func TestDivideTupleByScalar(t *testing.T) {
-	t1 := Tuple{X: 1.0, Y: -2.0, Z: 3.0, W: -4.0}
+	t1 := Tuple{x: 1.0, y: -2.0, z: 3.0, w: -4.0}
 	scalar := 2.0
 
-	want := Tuple{X: 0.5, Y: -1, Z: 1.5, W: -2}
+	want := Tuple{x: 0.5, y: -1, z: 1.5, w: -2}
 	got := Divide(t1, scalar)
 
 	if !Equal(want, got) {
@@ -214,72 +214,3 @@ func TestCrossProduct(t *testing.T) {
 // v.y / magnitude(v),
 // v.z / magnitude(v),
 // v.w / magnitude(v))
-
-// ch 2
-func TestAddColors(t *testing.T) {
-	c1 := Color(0.9, 0.6, 0.75)
-	c2 := Color(0.7, 0.1, 0.25)
-
-	want := Color(1.6, 0.7, 1.0)
-	got := Add(c1, c2)
-
-	if !Equal(want, got) {
-		t.Errorf("got %v, wanted %v", got, want)
-	}
-}
-
-func TestSubtractColors(t *testing.T) {
-	c1 := Color(0.9, 0.6, 0.75)
-	c2 := Color(0.7, 0.1, 0.25)
-
-	want := Color(0.2, 0.5, 0.5)
-	got := Subtract(c1, c2)
-
-	if !Equal(want, got) {
-		t.Errorf("got %v, wanted %v", got, want)
-	}
-}
-
-func TestMultiplyColorsByScalar(t *testing.T) {
-	c := Color(0.2, 0.3, 0.4)
-
-	want := Color(0.4, 0.6, 0.8)
-	got := Multiply(c, 2)
-
-	if !Equal(want, got) {
-		t.Errorf("got %v, wanted %v", got, want)
-	}
-}
-
-func TestHadamardProduct(t *testing.T) {
-	c1 := Color(1.0, 0.2, 0.4)
-	c2 := Color(0.9, 1.0, 0.1)
-
-	want := Color(0.9, 0.2, 0.04)
-	got := HadamardProduct(c1, c2)
-
-	if !Equal(want, got) {
-		t.Errorf("got %v, wanted %v", got, want)
-	}
-}
-
-func TestNewCanvas(t *testing.T) {
-	c := NewCanvas(10, 20)
-
-	if c.width != 10 {
-		t.Errorf("expect height to be 10, got %d", c.width)
-	}
-
-	if c.height != 20 {
-		t.Errorf("expect height to be 20, got %d", c.height)
-	}
-
-	want := Color(0.0, 0.0, 0.0)
-	for _, row := range c.body {
-		for _, pixel := range row {
-			if !Equal(want, pixel) {
-				t.Errorf("got %v, wanted %v", pixel, want)
-			}
-		}
-	}
-}
