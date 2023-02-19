@@ -283,3 +283,19 @@ func TestNewCanvas(t *testing.T) {
 		}
 	}
 }
+
+func TestWritePixel(t *testing.T) {
+	c := NewCanvas(10, 20)
+	defaultColor := Color(0.0, 0.0, 0.0)
+	red := Color(1.0, 0.0, 0.0)
+
+	if !Equal(defaultColor, PixelAt(&c, 2, 3)) {
+		t.Errorf("failed control case")
+	}
+
+	WritePixel(&c, red, 2, 3)
+
+	if !Equal(red, PixelAt(&c, 2, 3)) {
+		t.Errorf("pixel not red")
+	}
+}

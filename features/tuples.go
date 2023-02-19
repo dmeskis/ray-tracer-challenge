@@ -198,7 +198,11 @@ func NewCanvas(w, h int) Canvas {
 	}
 }
 
-func WritePixel(c *Canvas, color Tuple, w, h int) Canvas {
-
+func WritePixel(c *Canvas, color Tuple, y, x int) Canvas {
+	c.body[y][x] = color
 	return *c
+}
+
+func PixelAt(c *Canvas, y, x int) Tuple {
+	return c.body[y][x]
 }
