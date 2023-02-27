@@ -299,3 +299,25 @@ func TestWritePixel(t *testing.T) {
 		t.Errorf("pixel not red")
 	}
 }
+
+func TestCanvasToPPM(t *testing.T) {
+	want := `P3
+5 3
+255
+255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 255`
+	c := NewCanvas(5, 3)
+
+	c1 := Color(1.5, 0.0, 0.0)
+	c2 := Color(0.0, 0.5, 0.0)
+	c3 := Color(-0.5, 0.0, 1.0)
+
+	WritePixel(&c, c1, 0, 0)
+	WritePixel(&c, c2, 2, 1)
+	WritePixel(&c, c3, 4, 2)
+	got := c.ToPPM()
+	if got != want {
+		t.Errorf("got %s, wanted %s", got, want)
+	}
+}

@@ -1,6 +1,7 @@
 package features
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -182,6 +183,37 @@ type Canvas struct {
 	body   [][]Tuple
 }
 
+func (c *Canvas) ToPPM() string {
+	// header
+	header := ""
+	header += "P3\n"
+	header += fmt.Sprintf("%d %d\n", c.width, c.height)
+	header += "255"
+
+	// body (line should not be more than 70 characters..)
+	line := ""
+	for _, col := range c.body {
+		for _, pixel := range col { // row
+			// formula for converting rgb to int
+			r := int(math.Floor(Clamp(pixel.X)*255.0 + 0.5))
+			g := int(math.Floor(Clamp(pixel.Y)*255.0 + 0.5))
+			b := int(math.Floor(Clamp(pixel.Z)*255.0 + 0.5))
+			num := fmt.Sprintf("%d %d %d", r, g, b)
+			if len(line)+len(num) > 30 {
+				line = fmt.Sprintf("%s%s", line, num)
+				header += fmt.Sprintf("\n%s", line)
+				line = ""
+			} else {
+				line += fmt.Sprintf("%s ", num)
+			}
+		}
+
+	}
+	header += fmt.Sprintf("%s", line)
+
+	return header
+}
+
 func NewCanvas(w, h int) Canvas {
 	var body [][]Tuple
 	for i := 0; i < h; i++ {
@@ -198,11 +230,21 @@ func NewCanvas(w, h int) Canvas {
 	}
 }
 
-func WritePixel(c *Canvas, color Tuple, y, x int) Canvas {
+func WritePixel(c *Canvas, color Tuple, x, y int) Canvas {
 	c.body[y][x] = color
 	return *c
 }
 
-func PixelAt(c *Canvas, y, x int) Tuple {
+func PixelAt(c *Canvas, x, y int) Tuple {
 	return c.body[y][x]
+}
+
+func Clamp(n float64) float64 {
+	if n > 1.0 {
+		return 1.0
+	} else if n < 0.0 {
+		return 0.0
+
+	}
+	return n
 }
